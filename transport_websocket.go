@@ -8,6 +8,7 @@ import (
 	"io"
 	"net"
 	"net/http"
+	"net/url"
 	"sync"
 	"time"
 
@@ -66,13 +67,14 @@ type websocketConfig struct {
 
 	// Header specifies custom HTTP Header to send.
 	Header http.Header
+	Proxy  func(*http.Request) (*url.URL, error)
 }
 
 func newWebsocketTransport(url string, encoding protocol.Type, config websocketConfig) (transport, error) {
 	wsHeaders := config.Header
 
 	dialer := &websocket.Dialer{}
-	dialer.Proxy = http.ProxyFromEnvironment
+	dialer.Proxy = config.Proxy
 	dialer.NetDialContext = config.NetDialContext
 
 	dialer.HandshakeTimeout = config.HandshakeTimeout

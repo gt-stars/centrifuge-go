@@ -5,6 +5,7 @@ import (
 	"crypto/tls"
 	"net"
 	"net/http"
+	"net/url"
 	"time"
 )
 
@@ -56,6 +57,9 @@ type Config struct {
 	// Version allows setting client version. This is an application
 	// specific information. By default no version set.
 	Version string
+
+	// Proxy allows user SetProxy
+	Proxy func(*http.Request) (*url.URL, error)
 }
 
 // DefaultConfig returns Config with default options.
@@ -68,5 +72,6 @@ func DefaultConfig() Config {
 		PrivateChannelPrefix: DefaultPrivateChannelPrefix,
 		Header:               http.Header{},
 		Name:                 DefaultName,
+		Proxy:                nil,
 	}
 }

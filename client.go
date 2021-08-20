@@ -731,6 +731,7 @@ func (c *Client) connectFromScratch(isReconnect bool, reconnectWaitCB func()) er
 		EnableCompression: c.config.EnableCompression,
 		CookieJar:         c.config.CookieJar,
 		Header:            c.config.Header,
+		Proxy:             c.config.Proxy,
 	}
 
 	t, err := newWebsocketTransport(c.url, c.encoding, wsConfig)
